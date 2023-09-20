@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit&family=Poppins&family=Preahvihear&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Kanit", sans-serif;
+}
+.navbar {
+  background-color: rgb(84, 105, 212);
+}
+.inner_navbar {
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}
+.inner-left-navbar {
+  font-size: 25px;
+  cursor: pointer;
+}
+.inner-center-navbar input[type="search"] {
+  width: 100%;
+  height: 45px;
+  border-radius: 8px;
+  border: 1px solid hsl(0, 0%, 75%);
+  outline: none;
+  padding-left: 15px !important;
+  font-size: 20px;
+  padding-right: 13%;
+}
+.serach-icon {
+  cursor: pointer;
+  font-size: 32px;
+  right: 0;
+  padding-top: 7px;
+  padding-right: 15px;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+.inner-right-navbar button {
+  background-color: rgb(239, 194, 30);
+  border: none;
+  padding: 5px 25px;
+  border-radius: 15px;
+  font-size: 20px;
+}
+/*table start*/
+.container-fluid.table {
+  width: 100%;
+  margin-top: 10px;
+}
+.inner-table {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  background-color: rgb(84, 105, 212);
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #fff;
+}
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+td {
+  cursor: pointer;
+  padding: 15px;
+  padding-left: 10px !important;
+  border-bottom: 1px solid #ccc !important;
+}
+/* .table tr:hover {
+  background-color: #c9d2ff;
+} */
+Button {
+  padding: 6px 20px;
+  border-radius: 15px !important;
+  font-size: 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+#edit {
+  background-color: green;
+}
+#delete {
+  background-color: red;
+  margin-left: 8px;
+}
+table td img {
+  height: 60px;
+}
+#ProductCategory {
+  width: 100% !important;
+  text-align: center !important;
+}
+#dropdownMenuButton img {
+  height: 30px !important;
+}
+#dropdownMenuButton {
+  background-color: transparent !important;
+}
