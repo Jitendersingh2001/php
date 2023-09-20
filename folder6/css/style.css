@@ -85,17 +85,11 @@ Button {
 button:hover {
   opacity: 0.8;
 }
-#edit {
-  background-color: green;
-}
-#delete {
-  background-color: red;
-  margin-left: 8px;
-}
 table td img {
-  height: 60px;
+  max-width: 100px;
 }
 #ProductCategory {
+  font-size: 20px;
   width: 100% !important;
   text-align: center !important;
 }
@@ -104,4 +98,25 @@ table td img {
 }
 #dropdownMenuButton {
   background-color: transparent !important;
+}
+#othercategoryfield {
+  margin-top: 10px !important;
+}
+.hide {
+  display: none !important;
+}
+.modal-header {
+  background-color: rgb(84, 105, 212) !important;
+  color: white !important;
+}
+.btn-close {
+  filter: invert(100%);
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.add-btn {
+  padding: 6px 20px;
+  border-radius: 15px !important;
 }
