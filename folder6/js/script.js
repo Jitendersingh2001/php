@@ -12,12 +12,11 @@ $(document).ready(function () {
   function loadData() {
     $.ajax({
       type: "GET",
-      url: "php/fetchdata.php", // Change the URL to your getdata.php file
+      url: "php/fetchdata.php",
       dataType: "json",
       success: function (data) {
         console.log(data);
         $("tbody").empty();
-        // Loop through the retrieved data and append it to the table
         $.each(data, function (index, item) {
           var row = $("<tr>").appendTo("tbody");
           $("<td>").text(item.product_name).appendTo(row);
@@ -43,19 +42,16 @@ $(document).ready(function () {
         });
       },
       error: function (xhr, status, error) {
-        // Handle error
         console.error(xhr);
       },
     });
   }
   loadData();
   $("#submit").click(function (e) {
-    e.preventDefault(); // Prevent the form from submitting
+    e.preventDefault();
 
-    // Get form data
     var formData = new FormData($("#AddForm")[0]);
 
-    // Include the othercategoryfield value in formData if the "Other" option is selected
     if ($("#ProductCategory").val() === "Other") {
       var otherCategoryValue = $("#othercategoryfield").val();
       formData.append("OtherCategory", otherCategoryValue);
@@ -68,7 +64,6 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function (data) {
-        // Handle success
         $("#ProductModal").modal("hide");
         $("#ProductName").val("");
         $("#ProductDescription").val("");
@@ -85,7 +80,6 @@ $(document).ready(function () {
         });
       },
       error: function (xhr, status, error) {
-        // Handle error
         console.error(xhr);
       },
     });
@@ -94,4 +88,23 @@ $(document).ready(function () {
     $(".modal-title").text("Edit Product");
     $(".add-btn").val("Edit");
   });
+  //IMPLEMENETING SEARCH
+  function filterTableRows() {
+    var searchValue = $("#searchInput").val().toLowerCase();
+
+    $("tbody tr").each(function () {
+      var productName = $(this).find("td:eq(0)").text().toLowerCase();
+
+      var productDescription = $(this).find("td:eq(1)").text().toLowerCase();
+      if (
+        productName.indexOf(searchValue) !== -1 ||
+        productDescription.indexOf(searchValue) !== -1
+      ) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  }
+  $("#searchInput").on("input", filterTableRows);
 });

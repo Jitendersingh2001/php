@@ -28,7 +28,7 @@ include("php/database.php");
                 PRODUCT CART
             </div>
             <div class="inner-center-navbar w-50 d-flex position-relative">
-                <input type="search" name="search" id="search">
+                <input type="search" name="search" id="searchInput">
                 <i class='bx bx-search-alt-2 position-absolute serach-icon'></i>
             </div>
             <div class="inner-right-navbar">
