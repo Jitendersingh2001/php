@@ -63,11 +63,11 @@ include("php/database.php");
                 </tr>
                </thead>
                 <tbody>
-                
                 </tbody>
             </table>
         </div>
     </div>
+
     <!-- add product modal -->
     <div class="modal fade" id="ProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -105,6 +105,7 @@ include("php/database.php");
                   class="form-control"
                   id="ProductPrize"
                   aria-describedby="ProductPrize"
+                  oninput="javascript: if (this.value.length > 15) this.value = this.value.slice(0, 15);"
                 />
               </div>
               <div class="mb-3">
@@ -120,6 +121,7 @@ include("php/database.php");
                 />
               </div>
               <div class="mb-3 image">
+    <div class="new_image">
     <label for="ProductImage" class="form-label">New Product Image</label>
     <input
         type="file"
@@ -128,12 +130,13 @@ include("php/database.php");
         id="ProductImage"
         aria-describedby="ProductImage"
     />
+    </div>
 </div>
 
             </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CANCEL</button>
+        <button type="button" class="btn btn-danger cancel-btn" data-bs-dismiss="modal">CANCEL</button>
         <input type="submit" id="submit" name="submit" value="ADD" class="btn btn-success add-btn">
        
       </div>
