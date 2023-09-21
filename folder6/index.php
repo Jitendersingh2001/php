@@ -110,11 +110,6 @@ include("php/database.php");
               <div class="mb-3">
                 <label for="ProductCategory" class="form-label">Category</label><br>
                 <select name="ProductCategory" id="ProductCategory">
-                <option value="Men">Men</option>
-                <option value="Woman">Woman</option>
-                <option value="Shoes">Shoes</option>
-                <option value="Kitchen">Kitchen</option>
-                <option value="Other" id="othetcategory">Other</option>
                 </select><br>
                 <input
                   type="text"
@@ -124,16 +119,17 @@ include("php/database.php");
                   name="othercategoryfield"
                 />
               </div>
-              <div class="mb-3">
-                <label for="ProductImage" class="form-label">Product Image</label>
-                <input
-                  type="file"
-                  name="ProductImage"
-                  class="form-control"
-                  id="ProductImage"
-                  aria-describedby="ProductImage"
-                />
-              </div>
+              <div class="mb-3 image">
+    <label for="ProductImage" class="form-label">New Product Image</label>
+    <input
+        type="file"
+        name="ProductImage"
+        class="form-control"
+        id="ProductImage"
+        aria-describedby="ProductImage"
+    />
+</div>
+
             </form>
       </div>
       <div class="modal-footer">
