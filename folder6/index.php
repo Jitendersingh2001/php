@@ -65,6 +65,12 @@ include("php/database.php");
                 <tbody>
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-end">
+    <li class="page-item prev-btn"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item next-btn"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
         </div>
     </div>
 

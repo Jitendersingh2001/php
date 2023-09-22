@@ -10,7 +10,7 @@ if (typeof Object.create !== "function") {
 (function ($, window, document, undefined) {
   "use strict";
 
-  var Toast = {
+  let Toast = {
     _positionClasses: [
       "bottom-left",
       "bottom-right",
@@ -28,7 +28,7 @@ if (typeof Object.create !== "function") {
     },
 
     prepareOptions: function (options, options_to_extend) {
-      var _options = {};
+      let _options = {};
       if (typeof options === "string" || options instanceof Array) {
         _options.text = options;
       } else {
@@ -46,7 +46,7 @@ if (typeof Object.create !== "function") {
     },
 
     setup: function () {
-      var _toastContent = "";
+      let _toastContent = "";
 
       this._toastEl =
         this._toastEl ||
@@ -68,7 +68,7 @@ if (typeof Object.create !== "function") {
         }
 
         _toastContent += '<ul class="jq-toast-ul">';
-        for (var i = 0; i < this.options.text.length; i++) {
+        for (let i = 0; i < this.options.text.length; i++) {
           _toastContent +=
             '<li class="jq-toast-li" id="jq-toast-item-' +
             i +
@@ -155,7 +155,7 @@ if (typeof Object.create !== "function") {
     },
 
     bindToast: function () {
-      var that = this;
+      let that = this;
 
       this._toastEl.on("afterShown", function () {
         that.processLoader();
@@ -214,7 +214,7 @@ if (typeof Object.create !== "function") {
     },
 
     addToDom: function () {
-      var _container = $(".jq-toast-wrap");
+      let _container = $(".jq-toast-wrap");
 
       if (_container.length === 0) {
         _container = $("<div></div>", {
@@ -236,7 +236,7 @@ if (typeof Object.create !== "function") {
       _container.append(this._toastEl);
 
       if (this.options.stack && !isNaN(parseInt(this.options.stack), 10)) {
-        var _prevToastCount = _container.find(".jq-toast-single").length,
+        let _prevToastCount = _container.find(".jq-toast-single").length,
           _extToastCount = _prevToastCount - this.options.stack;
 
         if (_extToastCount > 0) {
@@ -263,14 +263,14 @@ if (typeof Object.create !== "function") {
         return false;
       }
 
-      var loader = this._toastEl.find(".jq-toast-loader");
+      let loader = this._toastEl.find(".jq-toast-loader");
 
       // 400 is the default time that jquery uses for fade/slide
       // Divide by 1000 for milliseconds to seconds conversion
-      var transitionTime = (this.options.hideAfter - 400) / 1000 + "s";
-      var loaderBg = this.options.loaderBg;
+      let transitionTime = (this.options.hideAfter - 400) / 1000 + "s";
+      let loaderBg = this.options.loaderBg;
 
-      var style = loader.attr("style") || "";
+      let style = loader.attr("style") || "";
       style = style.substring(0, style.indexOf("-webkit-transition")); // Remove the last transition definition
 
       style +=
@@ -291,7 +291,7 @@ if (typeof Object.create !== "function") {
     },
 
     animate: function () {
-      var that = this;
+      let that = this;
 
       this._toastEl.hide();
 
@@ -312,7 +312,7 @@ if (typeof Object.create !== "function") {
       }
 
       if (this.canAutoHide()) {
-        var that = this;
+        let that = this;
 
         window.setTimeout(function () {
           if (that.options.showHideTransition.toLowerCase() === "fade") {
@@ -357,7 +357,7 @@ if (typeof Object.create !== "function") {
   };
 
   $.toast = function (options) {
-    var toast = Object.create(Toast);
+    let toast = Object.create(Toast);
     toast.init(options, this);
 
     return {

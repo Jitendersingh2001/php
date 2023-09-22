@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $emailErr = "Email is required";
     } else {
         $email = $_POST["email"];
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_let($email, FILTER_VALIDATE_EMAIL)) {
             $emailErr = "Invalid email format";
         }
     }

@@ -1,5 +1,5 @@
 <?php
-/* varibale needed to establish the connection */
+/* letibale needed to establish the connection */
 
 $db_server = "localhost";
 $db_username = "root";

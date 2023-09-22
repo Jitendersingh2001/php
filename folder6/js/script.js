@@ -1,5 +1,7 @@
 $(document).ready(function () {
-  var row, rowId;
+  let row, rowId, totalPages;
+  let currentPage = 1;
+
   /* Other field code  */
   $("#ProductCategory").change(function () {
     if ($(this).val() === "Other") {
@@ -15,7 +17,7 @@ $(document).ready(function () {
       url: "php/category.php",
       dataType: "json",
       success: function (data) {
-        var selectElement = $("#ProductCategory");
+        let selectElement = $("#ProductCategory");
         selectElement.empty();
 
         if (data.product_types && data.product_types.length > 0) {
@@ -59,31 +61,39 @@ $(document).ready(function () {
       url: "php/fetchdata.php",
       dataType: "json",
       success: function (data) {
-        $("tbody").empty();
-        $.each(data, function (index, item) {
-          var row = $("<tr>").appendTo("tbody");
-          row.attr("data-id", item.product_id);
-          $("<td>").text(item.product_name).appendTo(row);
-          $("<td>").text(item.product_description).appendTo(row);
-          $("<td>").text(item.product_price).appendTo(row);
-          $("<td>").text(item.product_type).appendTo(row);
-          $("<td>")
-            .html('<img src="' + item.product_image + '" alt="image">')
-            .appendTo(row);
-          $("<td>")
-            .html(
-              '<div class="dropdown">' +
-                '<button id="dropdownMenuButton" data-bs-toggle="dropdown" type="button">' +
-                '<img src="../folder6/image/3dotmenu.png" alt="3dotmenu">' +
-                "</button>" +
-                '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
-                '<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ProductModal" id="edit">Edit</a>' +
-                '<a class="dropdown-item" href="#" id="delete">Delete</a>' +
-                "</div>" +
-                "</div>"
-            )
-            .appendTo(row);
-        });
+        if (data.total_count > 10) {
+          $(".pages").removeClass("hide");
+        } else {
+          $(".pages").addClass("hide");
+        }
+        totalPages = Math.ceil(data.total_count / 10); // Assuming 10 records per page
+
+        if (totalPages > 1) {
+          // Generate the page links dynamically
+          let pagination = $(".pagination");
+          pagination.empty(); // Clear previous links
+
+          // Previous button
+          pagination.append(
+            '<li class="page-item prev-btn"><a class="page-link" href="#">Previous</a></li>'
+          );
+          // Page links
+          for (let i = 1; i <= totalPages; i++) {
+            pagination.append(
+              '<li class="page-item"><a class="page-link" href="#">' +
+                i +
+                "</a></li>"
+            );
+          }
+          prevbtndisable();
+          nextbtndisable();
+          // Next button
+          pagination.append(
+            '<li class="page-item next-btn"><a class="page-link" href="#">Next</a></li>'
+          );
+        }
+
+        table(data);
         selectcategory();
       },
       error: function (error) {
@@ -91,15 +101,97 @@ $(document).ready(function () {
       },
     });
   }
+  function prevbtndisable() {
+    if (currentPage == 1) {
+      $(".prev-btn").addClass("disabled");
+      $(".prev-btn .page-link").attr("aria-disabled", true);
+    } else {
+      $(".prev-btn").removeClass("disabled");
+      $(".prev-btn .page-link").attr("aria-disabled", false);
+    }
+  }
+  function nextbtndisable() {
+    if (currentPage == totalPages) {
+      $(".next-btn").addClass("disabled");
+      $(".next-btn .page-link").attr("aria-disabled", true);
+    } else {
+      $(".next-btn").removeClass("disabled");
+      $(".next-btn .page-link").attr("aria-disabled", false);
+    }
+  }
+  function table(data) {
+    $("tbody").empty();
+    $.each(data.data, function (index, item) {
+      let row = $("<tr>").appendTo("tbody");
+      row.attr("data-id", item.product_id);
+      $("<td>").text(item.product_name).appendTo(row);
+      $("<td>").text(item.product_description).appendTo(row);
+      $("<td>").text(item.product_price).appendTo(row);
+      $("<td>").text(item.product_type).appendTo(row);
+      $("<td>")
+        .html('<img src="' + item.product_image + '" alt="image">')
+        .appendTo(row);
+      $("<td>")
+        .html(
+          '<div class="dropdown">' +
+            '<button id="dropdownMenuButton" data-bs-toggle="dropdown" type="button">' +
+            '<img src="../folder6/image/3dotmenu.png" alt="3dotmenu">' +
+            "</button>" +
+            '<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">' +
+            '<a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#ProductModal" id="edit">Edit</a>' +
+            '<a class="dropdown-item" href="#" id="delete">Delete</a>' +
+            "</div>" +
+            "</div>"
+        )
+        .appendTo(row);
+    });
+  }
+
   loadData(); // call of load data function
+
+  $(document).on("click", ".next-btn", function () {
+    currentPage += 1;
+    nextbtndisable();
+    prevbtndisable();
+    $.ajax({
+      type: "GET",
+      url: "php/fetchdata.php",
+      data: { page: currentPage },
+      dataType: "json",
+      success: function (data) {
+        table(data);
+      },
+      error: function (error) {
+        console.error(error);
+      },
+    });
+  });
+  $(document).on("click", ".prev-btn", function () {
+    currentPage -= 1;
+    prevbtndisable();
+    nextbtndisable();
+    $.ajax({
+      type: "GET",
+      url: "php/fetchdata.php",
+      data: { page: currentPage },
+      dataType: "json",
+      success: function (data) {
+        table(data);
+      },
+      error: function (error) {
+        console.error(error);
+      },
+    });
+  });
+
   //submit / add btn implementation
   $(".modal-footer").on("click", "#submit", function (e) {
     e.preventDefault();
-    var productName = $("#ProductName").val();
-    var productDescription = $("#ProductDescription").val();
-    var productPrice = $("#ProductPrize").val();
-    var productCategory = $("#ProductCategory").val();
-    var productImage = $("#ProductImage").val();
+    let productName = $("#ProductName").val();
+    let productDescription = $("#ProductDescription").val();
+    let productPrice = $("#ProductPrize").val();
+    let productCategory = $("#ProductCategory").val();
+    let productImage = $("#ProductImage").val();
 
     if (
       productName === "" ||
@@ -122,10 +214,10 @@ $(document).ready(function () {
         icon: "error",
       });
     } else {
-      var formData = new FormData($("#AddForm")[0]);
+      let formData = new FormData($("#AddForm")[0]);
 
       if (productCategory === "Other") {
-        var otherCategoryValue = $("#othercategoryfield").val();
+        let otherCategoryValue = $("#othercategoryfield").val();
         formData.append("OtherCategory", otherCategoryValue);
       }
       $.ajax({
@@ -165,7 +257,7 @@ $(document).ready(function () {
     row = $(this).closest("tr");
     rowId = row.data("id");
     if ($("#CurrentProductImage").length === 0) {
-      var newElements = `
+      let newElements = `
       <div id="imageContainer">
           <label for="ProductImage" class="form-label">Current Product Image</label><br>
           <img src="" id="CurrentProductImage" alt="Product Image" style="max-width: 100px; max-height: 100px;" />
@@ -187,7 +279,7 @@ $(document).ready(function () {
         $("#CurrentProductImage").attr("src", data.product_image);
 
         $("#NewProductImage").on("change", function () {
-          var newImage = URL.createObjectURL(this.files[0]);
+          let newImage = URL.createObjectURL(this.files[0]);
           $("#CurrentProductImage").attr("src", newImage);
         });
       },
@@ -221,11 +313,11 @@ $(document).ready(function () {
   //update btn implementation
   $(".modal-footer").on("click", "#update-btn", function (e) {
     e.preventDefault();
-    var currentImageSrc = $("#CurrentProductImage").attr("src");
-    var formData = new FormData($("#AddForm")[0]);
+    let currentImageSrc = $("#CurrentProductImage").attr("src");
+    let formData = new FormData($("#AddForm")[0]);
 
     if ($("#ProductCategory").val() === "Other") {
-      var otherCategoryValue = $("#othercategoryfield").val();
+      let otherCategoryValue = $("#othercategoryfield").val();
       formData.append("OtherCategory", otherCategoryValue);
     }
     formData.append("rowId", rowId);
@@ -253,7 +345,7 @@ $(document).ready(function () {
 
   //IMPLEMENETING SEARCH
   function filterTableRows() {
-    var search = $(this).val();
+    let search = $(this).val();
 
     $.ajax({
       type: "POST",
@@ -262,9 +354,10 @@ $(document).ready(function () {
       dataType: "json",
       success: function (data) {
         if (data && data.length > 0) {
+          //data?.length > 0
           $("tbody").empty();
           $.each(data, function (index, item) {
-            var row = $("<tr>").appendTo("tbody");
+            let row = $("<tr>").appendTo("tbody");
             row.attr("data-id", item.product_id);
             $("<td>").text(item.product_name).appendTo(row);
             $("<td>").text(item.product_description).appendTo(row);
